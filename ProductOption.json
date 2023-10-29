@@ -1,0 +1,356 @@
+{
+    "description": "Detailed structure of the product option model object showing its fields and data types.",
+    "type": "object",
+    "title": "Product Option",
+    "x-tags": [
+        "Models"
+    ],
+    "x-examples": {},
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "A unique identifier assigned to a specific product configuration or variant."
+        },
+        "name": {
+            "type": "string",
+            "description": "The label or title used to describe a specific choice or attribute associated with a product."
+        },
+        "description": {
+            "type": "string",
+            "description": "A text or content that provides detailed information or specifications about a specific choice or attribute associated with a product, helping customers make informed purchasing decisions.",
+            "nullable": true
+        },
+        "type": {
+            "type": "string",
+            "description": "Type of the product option, it can be a `radio` button or `checkbox`",
+            "enum": [
+                "radio",
+                "checkbox"
+            ]
+        },
+        "required": {
+            "type": "boolean",
+            "description": "This is to indicate if the product option is obligatory."
+        },
+        "associated_with_order_time": {
+            "type": [
+                "integer",
+                "boolean"
+            ],
+            "description": "The product option is only relevant to order receiving time when it pertains to date-time selections. **ONLY** for date time options."
+        },
+        "sort": {
+            "type": "integer",
+            "description": "Product option sort refers to the method or criteria used to arrange or order product options.",
+            "nullable": true
+        },
+        "display_type": {
+            "type": "string",
+            "description": "The manner in which product choices or attributes are presented.",
+            "enum": [
+                "text",
+                "image",
+                "color"
+            ]
+        },
+        "visibility": {
+            "type": "string",
+            "description": "Product option visibility based on condition is applied exclusively to products categorized as 'food' or 'service', allowing certain choices or attributes to be shown or hidden based on specific criteria.",
+            "enum": [
+                "always",
+                "on_condition"
+            ]
+        },
+        "visibility_condition_type": {
+            "type": "string",
+            "description": "Product option visiblity condition type",
+            "enum": [
+                ">",
+                "<",
+                "=",
+                "!="
+            ]
+        },
+        "visibility_condition_option": {
+            "type": "integer",
+            "description": "A unique identifier assigned to a specific product option.",
+            "nullable": true
+        },
+        "visibility_condition_value": {
+            "type": "integer",
+            "description": "A unique identifier associated with a specific value or choice within a product option.",
+            "nullable": true
+        },
+        "values": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+                "$ref": "#/definitions/ProductValue"
+            }
+        },
+        "skus": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/ProductVariant"
+            }
+        }
+    },
+    "definitions": {
+        "ProductValue": {
+            "description": "Detailed structure of the product value model object showing its fields and data types.",
+            "type": "object",
+            "title": "Product Value",
+            "x-tags": [
+                "Models"
+            ],
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "A Product Value ID is a unique identifier assigned to a specific value associated with a product, aiding in accurate tracking and management of product attributes and characteristics."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Identifying label for a product attribute."
+                },
+                "price": {
+                    "type": "object",
+                    "description": "The extra price added when a customer selects a specific value; use 0 to indicate no additional cost. Applicable for product types: service and food.",
+                    "properties": {
+                        "amount": {
+                            "type": "number"
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "display_value": {
+                    "type": "string",
+                    "description": "The UI shows the value based on the option's display type. By default, it uses the value's name when 'display_value=text'. If 'image' is used, set the value as the image ID (upload via attach image endpoint). For 'color' display, provide the color (e.g., '#000' for black)."
+                },
+                "option_id": {
+                    "description": "Option ID is a unique identifier assigned to a specific choice or configuration available to customers, aiding in precise tracking and management of selectable product attributes.",
+                    "type": "number"
+                },
+                "image_url": {
+                    "type": "string",
+                    "description": "When the option type is set to \"image,\" the Value Image URL refers to the web address where the corresponding image is hosted."
+                },
+                "hashed_display_value": {
+                    "type": "string",
+                    "description": "if `option.type` = `image` then hashed display value return `image id`. \nif `option.type` = `text` then hashed display value return value `name` "
+                },
+                "skus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ProductVariant"
+                    }
+                },
+                "is_default": {
+                    "type": "boolean",
+                    "description": "This option will be enabled when this particular value is the default value."
+                }
+            }
+        },
+        "ProductVariant": {
+            "description": "Detailed structure of the product variant model object showing its fields and data types.",
+            "type": "object",
+            "title": "Product Variant",
+            "x-tags": [
+                "Models"
+            ],
+            "x-examples": {
+                "Example": {
+                    "id": 1115785385,
+                    "price": {
+                        "amount": 90.5,
+                        "currency": "SAR"
+                    },
+                    "regular_price": {
+                        "amount": 100.33,
+                        "currency": "SAR"
+                    },
+                    "sale_price": {
+                        "amount": 90.5,
+                        "currency": "SAR"
+                    },
+                    "stock_quantity": 4,
+                    "barcode": "abc01",
+                    "sku": "23-TD23-32",
+                    "mpn": 43242342,
+                    "gtin": 54353453,
+                    "related_options": [
+                        512644768,
+                        976327842
+                    ],
+                    "related_option_values": [
+                        512644768,
+                        976327842
+                    ],
+                    "weight": 3,
+                    "weight_type": "kg",
+                    "weight_label": "٣ كجم"
+                }
+            },
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "A unique identifier associated with a specific variant of a product or item."
+                },
+                "barcode": {
+                    "type": "string",
+                    "description": "The barcode value of product variant.",
+                    "example": "abc01"
+                },
+                "sku": {
+                    "type": "string",
+                    "description": "A unique Stock Keeping Unit (SKU) identifier assigned to a specific variant of a product.",
+                    "example": "23-TD23-32"
+                },
+                "price": {
+                    "type": "object",
+                    "description": "The price of the product variant.",
+                    "properties": {
+                        "amount": {
+                            "type": "number",
+                            "description": "The amount of the product price. Example: 96.33",
+                            "example": 96.33
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "sale_price": {
+                    "type": "object",
+                    "description": "The sale price of the product variant.",
+                    "properties": {
+                        "amount": {
+                            "type": "number",
+                            "description": "The value of the sale price a Example: 100.33"
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "regular_price": {
+                    "type": "object",
+                    "x-stoplight": {
+                        "id": "uub4l1jz09qkf"
+                    },
+                    "description": "The regular price of the product variant.\r\n\r\n",
+                    "properties": {
+                        "amount": {
+                            "type": "number",
+                            "x-stoplight": {
+                                "id": "a026eri5g9k4h"
+                            }
+                        },
+                        "currency": {
+                            "type": "string",
+                            "x-stoplight": {
+                                "id": "g8gzh6e6ghf4l"
+                            }
+                        }
+                    }
+                },
+                "cost_price": {
+                    "type": "object",
+                    "description": "The original or purchase price at which a product or item was acquired by a business or individual, excluding any additional expenses or markups.",
+                    "x-stoplight": {
+                        "id": "687chslg6fdqy"
+                    },
+                    "properties": {
+                        "amount": {
+                            "type": "number",
+                            "description": "The value of the cost price amount. Example: 100.33"
+                        },
+                        "currency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "stock_quantity": {
+                    "type": "integer",
+                    "description": "The amount of the product variant total stock quantity. Only updated if the store feature manage product by branches is not activated.",
+                    "example": 4
+                },
+                "unlimited_quantity": {
+                    "type": "boolean",
+                    "x-stoplight": {
+                        "id": "62evc4ca3tf7u"
+                    },
+                    "description": "The option to indicate that the product variant is of unlimit quantity."
+                },
+                "related_options": {
+                    "type": "array",
+                    "x-stoplight": {
+                        "id": "gwg4szqmpeyr4"
+                    },
+                    "description": "An array for the related options to this variant.",
+                    "items": {
+                        "x-stoplight": {
+                            "id": "2ezv3bfmmwob0"
+                        },
+                        "type": "integer"
+                    }
+                },
+                "related_option_values": {
+                    "type": "array",
+                    "x-stoplight": {
+                        "id": "ruoh1jjr3rjq6"
+                    },
+                    "description": "An array for the values of the related options to this variant.",
+                    "items": {
+                        "x-stoplight": {
+                            "id": "78wwfmqiyubcx"
+                        },
+                        "type": "integer"
+                    }
+                },
+                "is_default": {
+                    "type": "boolean",
+                    "description": "The option to enable showing that the product variant is the default "
+                },
+                "weight": {
+                    "type": "number",
+                    "description": "The numerical value that represents the mass or weight of a specific variant of a product.",
+                    "example": 3
+                },
+                "weight_type": {
+                    "type": "string",
+                    "description": "Product Variant Weight Type",
+                    "example": "kg"
+                },
+                "weight_label": {
+                    "type": "string",
+                    "description": "Product variant weight label representing the type of the weight.",
+                    "example": "٣ كجم"
+                },
+                "gtin": {
+                    "type": "string",
+                    "x-stoplight": {
+                        "id": "gp8b5bu8mg5y6"
+                    },
+                    "description": "Global Trade Item Number, a unique and standardized identifier used to uniquely represent products, items, or services in the global marketplace, to enable efficient tracking and management across supply chains and retail sectors. If `product_type` is set to any of the following: `product`, `group_products`, `codes`, `digital`, `donating` then value can be set. Otherwise, it can be set to `null`"
+                },
+                "mpn": {
+                    "type": "string",
+                    "x-stoplight": {
+                        "id": "1xotdb1fnb2p0"
+                    },
+                    "description": "Manufacturer Part Number, a unique identifier assigned by a manufacturer to a specific product or component, which helps distinguish it from other similar products and facilitates inventory management, product tracking, and ordering processes."
+                },
+                "notify_low": {
+                    "type": "integer",
+                    "x-stoplight": {
+                        "id": "j71y502ca9eth"
+                    },
+                    "description": "Sets a threshold value to trigger notifications when inventory falls below."
+                }
+            }
+        }
+    }
+}
